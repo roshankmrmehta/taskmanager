@@ -1,1 +1,3 @@
-spring.application.name=taskmanager
+
+server:
+  port: 3232

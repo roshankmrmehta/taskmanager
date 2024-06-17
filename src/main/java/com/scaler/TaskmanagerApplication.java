@@ -1,4 +1,4 @@
-package com.scaler.taskmanager;
+package com.scaler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
