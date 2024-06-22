@@ -2,9 +2,12 @@ package com.scaler.controllers;
 
 import com.scaler.dto.CreateTaskDTO;
 import com.scaler.dto.ErrorResponseDTO;
+import com.scaler.dto.TaskResponseDTO;
 import com.scaler.dto.UpdateTaskDTO;
 import com.scaler.entities.TaskEntity;
+import com.scaler.service.NotesService;
 import com.scaler.service.TaskService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +19,12 @@ import java.util.List;
 public class TasksController {
 
     private final TaskService taskService;
+    private final NotesService notesService;
+    private ModelMapper modelMapper = new ModelMapper();
 
-    public TasksController(TaskService taskService){
+    public TasksController(TaskService taskService, NotesService notesService){
         this.taskService = taskService;
+        this.notesService = notesService;
     }
 
     @GetMapping("")
@@ -27,12 +33,15 @@ public class TasksController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskEntity> getTasksById(@PathVariable int id){
+    public ResponseEntity<TaskResponseDTO> getTasksById(@PathVariable int id){
         var task = taskService.getTaskById(id);
+        var notes = notesService.getNotesForTask(id);
         if(task == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(task);
+        var taskResponse = modelMapper.map(task, TaskResponseDTO.class);
+        taskResponse.setNotes(notes);
+        return ResponseEntity.ok(taskResponse);
     }
 
     @PostMapping("")

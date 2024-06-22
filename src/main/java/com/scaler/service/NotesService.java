@@ -2,11 +2,13 @@ package com.scaler.service;
 
 import com.scaler.entities.NoteEntity;
 import com.scaler.entities.TaskEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class NotesService {
 
     private TaskService taskService;
@@ -27,8 +29,10 @@ public class NotesService {
             return null;
         }
 
+        // or we can directly write "return taskNotesHolder.getOrDefault(taskId, new TaskNotesHolder()).notes;"
+
         if(taskNotesHolder.get(taskId) == null){
-            taskNotesHolder.put(taskId, new TaskNotesHolder());
+            return taskNotesHolder.put(taskId, new TaskNotesHolder()).notes;
         }
         return taskNotesHolder.get(taskId).notes;
 
