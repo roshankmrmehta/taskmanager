@@ -32,7 +32,7 @@ public class NotesService {
         // or we can directly write "return taskNotesHolder.getOrDefault(taskId, new TaskNotesHolder()).notes;"
 
         if(taskNotesHolder.get(taskId) == null){
-            return taskNotesHolder.put(taskId, new TaskNotesHolder()).notes;
+            taskNotesHolder.put(taskId, new TaskNotesHolder();
         }
         return taskNotesHolder.get(taskId).notes;
 
